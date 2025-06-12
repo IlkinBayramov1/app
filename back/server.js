@@ -9,7 +9,8 @@ const app = express();
 
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors("*"))
+app.use(cors()); // və ya xüsusi icazələr üçün:
+app.use(cors({ origin: "*" }));
 app.use("/", router)
 
 connectDB();
@@ -17,6 +18,5 @@ connectDB();
 
 
 app.listen(1500, () => {
-    console.log("databazaya baglandi");
-    
+    console.log("Server 1500-ci portda işə düşdü");
 });
