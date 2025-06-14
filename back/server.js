@@ -1,22 +1,24 @@
-import express, { urlencoded } from "express"
-import { connectDB } from "./config/config.js"
-import cors from "cors"
-import router from "./router/router.js";
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import hotelRoutes from './router/router.js';
+import connectDB from './config/config.js';
 
 
+dotenv.config();
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-
-app.use(urlencoded({ extended: true }));
+// Middleware
+app.use(cors());
 app.use(express.json());
-app.use(cors()); // və ya xüsusi icazələr üçün:
-app.use(cors({ origin: "*" }));
-app.use("/", router)
 
+// Routes
+app.use('/api', hotelRoutes);
+
+// MongoDB bağlantısını çağır
 connectDB();
 
-
-
-app.listen(1500, () => {
-    console.log("Server 1500-ci portda işə düşdü");
+app.listen(PORT, () => {
+  console.log(`🚀 Server ${PORT} portunda işə düşdü`);
 });

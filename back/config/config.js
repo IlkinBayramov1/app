@@ -1,15 +1,13 @@
-import { configDotenv } from "dotenv";
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-configDotenv();
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('✅ MongoDB bağlantısı uğurla quruldu');
+  } catch (err) {
+    console.error('❌ MongoDB bağlantı xətası:', err.message);
+    process.exit(1); // Xətada server dayansın
+  }
+};
 
-
-export const connectDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI)
-        console.log("databazaya baglandi");
-    } catch (error) {
-        console.log("databazaya baglana bilmedi", error);
-
-    }
-}
+export default connectDB;
