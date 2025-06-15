@@ -2,7 +2,7 @@ import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-// ✅ Qeydiyyat
+// ✅ Qeydiyyat hisse
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -24,7 +24,7 @@ export const register = async (req, res) => {
   }
 };
 
-// ✅ Giriş
+// ✅ Giriş hisse
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
