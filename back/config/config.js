@@ -6,7 +6,7 @@ const connectDB = async () => {
     console.log('✅ MongoDB bağlantısı uğurla quruldu');
   } catch (err) {
     console.error('❌ MongoDB bağlantı xətası:', err.message);
-    process.exit(1); // Xətada server dayansın
+    process.exit(1); 
   }
 };
 

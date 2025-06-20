@@ -1,8 +1,13 @@
 import React from 'react'
+import Secone from './components/secone/Secone'
+import Sectwo from './components/sectwo/Sectwo'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <Secone />
+      <Sectwo />
+    </div>
   )
 }
 
