@@ -31,6 +31,7 @@ import connectDB from './config/config.js';
 import authRoutes from './router/authRoutes.js';
 import hotelRoutes from './router/hotelRoutes.js';
 import adminRoutes from './router/adminRoutes.js';
+import messageRoutes from './router/messageRoutes.js';
 
 dotenv.config();
 
@@ -48,14 +49,19 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/hotels', hotelRoutes);
 
+
+//admin
+app.use('/api/admin', adminRoutes);
+
+//message
+app.use('/api/messages', messageRoutes);
+
+
 // Default route
 app.get('/', (req, res) => {
   res.send('Baytend.com backend işləyir ✅');
 });
 
-
-//admin
-app.use('/api/admin', adminRoutes);
 
 // Serveri işə sal
 app.listen(PORT, () => {

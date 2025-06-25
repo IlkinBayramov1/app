@@ -1,46 +1,46 @@
-import mongoose from 'mongoose';
+  import mongoose from 'mongoose';
 
-const hotelSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
+  const hotelSchema = new mongoose.Schema(
+    {
+      name: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      location: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      pricePerNight: {
+        type: Number,
+        required: true,
+        min: 0,
+      },
+      image: {
+        type: String,
+        required: true,
+      },
+      rating: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
+      },
+      availableRooms: {
+        type: Number,
+        required: true,
+        min: 0,
+      },
+      description: {
+        type: String,
+        default: '',
+        trim: true,
+      },
     },
-    location: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    pricePerNight: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    image: {
-      type: String,
-      required: true,
-    },
-    rating: {
-      type: Number,
-      default: 0,
-      min: 0,
-      max: 5,
-    },
-    availableRooms: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    description: {
-      type: String,
-      default: '',
-      trim: true,
-    },
-  },
-  {
-    timestamps: true, // createdAt və updatedAt avtomatik yaranacaq
-  }
-);
+    {
+      timestamps: true, // createdAt və updatedAt avtomatik yaranacaq
+    }
+  );
 
-export default mongoose.model('Hotel', hotelSchema);
+  export default mongoose.model('Hotel', hotelSchema);
