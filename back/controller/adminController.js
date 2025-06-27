@@ -62,7 +62,7 @@ export const deleteHotelAdmin = async (req, res) => {
   }
 };
 
-// adminController.js
+// adminController
 export const getAdminStats = async (req, res) => {
   try {
     const usersCount = await User.countDocuments();
