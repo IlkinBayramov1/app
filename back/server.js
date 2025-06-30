@@ -42,6 +42,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+console.log("ENV JWT_SECRET:", process.env.JWT_SECRET);
+
 // DB bağlantısı
 connectDB();
 
