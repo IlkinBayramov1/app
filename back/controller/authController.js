@@ -58,7 +58,7 @@ import jwt from 'jsonwebtoken';
 
 // Qeydiyyat
 export const registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, phone, role } = req.body; // phone əlavə olundu
 
   try {
     const existingUser = await User.findOne({ email });
@@ -73,6 +73,8 @@ export const registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      phone, // yeni əlavə olunan hissə
+      role: role || 'user', // default user, amma istəyə uyğun 'owner' də ola bilər
     });
 
     await newUser.save();
@@ -81,6 +83,7 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: 'Server xətası', error: err.message });
   }
 };
+
 
 // Login
 export const loginUser = async (req, res) => {
@@ -106,10 +109,10 @@ export const loginUser = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        phone: user.phone, // ✅ BU SƏTİRİ BURAYA ƏLAVƏ ET
       },
     });
   } catch (err) {
     res.status(500).json({ message: 'Server xətası', error: err.message });
   }
 };
-

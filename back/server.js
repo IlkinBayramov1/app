@@ -32,6 +32,7 @@ import authRoutes from './router/authRoutes.js';
 import hotelRoutes from './router/hotelRoutes.js';
 import adminRoutes from './router/adminRoutes.js';
 import messageRoutes from './router/messageRoutes.js';
+import commentRoutes from './router/commentRoutes.js';
 
 dotenv.config();
 
@@ -57,6 +58,10 @@ app.use('/api/admin', adminRoutes);
 
 //message
 app.use('/api/messages', messageRoutes);
+
+//commet
+app.use('/api/comments', commentRoutes);
+
 
 
 // Default route

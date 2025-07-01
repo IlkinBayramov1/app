@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true, // təkrar email olmaz
+    unique: true,
     trim: true,
     lowercase: true,
   },
@@ -19,14 +19,19 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
   },
+  phone: {
+    type: String,
+    trim: true,
+    required: false, // Əgər mütləqdirsə: true yaz
+  },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'owner'], // <- "owner" əlavə olundu
     default: 'user',
   },
-
 }, {
-  timestamps: true, // createdAt və updatedAt
+  timestamps: true,
 });
+
 
 export default mongoose.model('User', userSchema);

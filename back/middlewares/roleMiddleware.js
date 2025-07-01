@@ -1,7 +1,6 @@
-export const isAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
-    next();
-  } else {
-    res.status(403).json({ message: 'Yalnız admin giriş edə bilər' });
+export const onlyOwner = (req, res, next) => {
+  if (req.user.role !== 'owner') {
+    return res.status(403).json({ message: 'Bu əməliyyatı yalnız otel sahibləri edə bilər' });
   }
+  next();
 };
