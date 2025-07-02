@@ -97,7 +97,7 @@ export const loginUser = async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Şifrə yanlışdır' });
 
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, role: user.role }, // ✅ `role` əlavə olundu
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );

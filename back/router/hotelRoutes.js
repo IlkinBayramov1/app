@@ -11,7 +11,7 @@ import { onlyOwner } from '../middlewares/roleMiddleware.js';
 
 const router = express.Router();
 
-router.post('/', verifyToken, createHotel);
+// ✅ YALNIZ bir dəfə POST / yazırıq
 router.post('/', verifyToken, onlyOwner, createHotel);
 router.get('/', getAllHotels);
 router.get('/:id', getHotelById);

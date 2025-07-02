@@ -6,7 +6,7 @@ dotenv.config();
 
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Token yoxdur və ya düzgün deyil' });
   }
@@ -15,10 +15,15 @@ export const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // user məlumatını req-ə əlavə edirik
+    console.log('✅ Token dekodlandı:', decoded); // Bunu əlavə et
+    req.user = decoded;
     next();
   } catch (err) {
+    console.log('❌ Token xətası:', err.message); // Bunu da əlavə et
     return res.status(401).json({ message: 'Token etibarsızdır' });
   }
 };
+
+
+
 

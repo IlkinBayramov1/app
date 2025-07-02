@@ -96,7 +96,7 @@ export const updateHotel = async (req, res) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      { $set: req.body }, // burada `images: [...]` göndərilə bilər
       { new: true }
     );
     if (!updatedHotel) return res.status(404).json({ message: 'Hotel tapılmadı' });
