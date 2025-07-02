@@ -1,9 +1,9 @@
 import Reservation from '../models/reservation.js';
 import Hotel from '../models/hotel.js';
 
-// Yeni rezervasiya yarat
+// 1) Yeni rezervasiya 
 export const createReservation = async (req, res) => {
-    try {
+     try {
         const { hotel, checkIn, checkOut, guests } = req.body;
         const user = req.user.id;
 
@@ -26,7 +26,6 @@ export const createReservation = async (req, res) => {
 
         await reservation.save();
 
-        // Otaq sayını azaldırıq
         foundHotel.availableRooms -= guests;
         await foundHotel.save();
 
@@ -36,10 +35,9 @@ export const createReservation = async (req, res) => {
     }
 };
 
-
-// İstifadəçinin bütün rezervasiyaları
+// 2) İstifadəçinin öz rezervasiyaları
 export const getUserReservations = async (req, res) => {
-    try {
+     try {
         const userId = req.user.id;
 
         const reservations = await Reservation.find({ user: userId })
@@ -50,4 +48,22 @@ export const getUserReservations = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Rezervasiyalar alınarkən xəta baş verdi', error: err.message });
     }
+};
+
+// 3) Otel sahibinin otelinə edilən rezervasiyalar
+export const getOwnerReservations = async (req, res) => {
+  try {
+    const ownerId = req.user.id;
+    const ownerHotels = await Hotel.find({ owner: ownerId }).select('_id');
+    const hotelIds = ownerHotels.map(hotel => hotel._id);
+
+    const reservations = await Reservation.find({ hotel: { $in: hotelIds } })
+      .populate('hotel', 'name location')
+      .populate('user', 'username email')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(reservations);
+  } catch (err) {
+    res.status(500).json({ message: 'Rezervasiyalar alınarkən xəta baş verdi', error: err.message });
+  }
 };

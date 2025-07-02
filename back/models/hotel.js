@@ -41,7 +41,11 @@ const hotelSchema = new mongoose.Schema(
       type: [String], // Şəkillər URL-lər kimi saxlanacaq
       default: [],
     },
-
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    }
   },
   {
     timestamps: true, // createdAt və updatedAt avtomatik yaranacaq

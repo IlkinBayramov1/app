@@ -62,13 +62,18 @@ import Hotel from '../models/hotel.js';
 // ✅ Yeni hotel əlavə et
 export const createHotel = async (req, res) => {
   try {
-    const newHotel = new Hotel(req.body);
+    const newHotel = new Hotel({
+      ...req.body,
+      owner: req.user.id, // Burada otelə daxil olan istifadəçi "owner" kimi təyin olunur
+    });
+
     const savedHotel = await newHotel.save();
     res.status(201).json(savedHotel);
   } catch (err) {
     res.status(500).json({ message: 'Hotel əlavə edilə bilmədi', error: err.message });
   }
 };
+
 
 // ✅ Bütün hotelleri gətir
 export const getAllHotels = async (req, res) => {
