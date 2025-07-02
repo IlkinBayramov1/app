@@ -34,6 +34,7 @@ import adminRoutes from './router/adminRoutes.js';
 import messageRoutes from './router/messageRoutes.js';
 import commentRoutes from './router/commentRoutes.js';
 import reservationRoutes from './router/reservationRoutes.js';
+import uploadRoutes from './router/uploadRoutes.js'; // doğru yolu qeyd et
 
 dotenv.config();
 
@@ -52,6 +53,10 @@ connectDB();
 // API route-lar
 app.use('/api/auth', authRoutes);
 app.use('/api/hotels', hotelRoutes);
+
+//upload
+app.use('/api/upload', uploadRoutes);
+
 
 
 //admin
