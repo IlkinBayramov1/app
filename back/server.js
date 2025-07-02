@@ -33,6 +33,7 @@ import hotelRoutes from './router/hotelRoutes.js';
 import adminRoutes from './router/adminRoutes.js';
 import messageRoutes from './router/messageRoutes.js';
 import commentRoutes from './router/commentRoutes.js';
+import reservationRoutes from './router/reservationRoutes.js';
 
 dotenv.config();
 
@@ -61,6 +62,9 @@ app.use('/api/messages', messageRoutes);
 
 //commet
 app.use('/api/comments', commentRoutes);
+
+//reservations
+app.use('/api/reservations', reservationRoutes);
 
 
 
