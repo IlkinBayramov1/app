@@ -49,9 +49,6 @@
 
 
 
-
-
-
 import User from '../models/user.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -73,8 +70,8 @@ export const registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      phone, // yeni əlavə olunan hissə
-      role: role || 'user', // default user, amma istəyə uyğun 'owner' də ola bilər
+      phone,
+      role: role || 'user', // default user, amma 'owner' də ola bilər
     });
 
     await newUser.save();
@@ -83,7 +80,6 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: 'Server xətası', error: err.message });
   }
 };
-
 
 // Login
 export const loginUser = async (req, res) => {
@@ -97,7 +93,7 @@ export const loginUser = async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Şifrə yanlışdır' });
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role }, // ✅ `role` əlavə olundu
+      { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
@@ -109,10 +105,56 @@ export const loginUser = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        phone: user.phone, // ✅ BU SƏTİRİ BURAYA ƏLAVƏ ET
+        phone: user.phone,
       },
     });
   } catch (err) {
     res.status(500).json({ message: 'Server xətası', error: err.message });
+  }
+};
+
+// Profil məlumatını əldə et (protected route)
+export const getProfile = async (req, res) => {
+  try {
+    // req.user.id middleware-də verifyToken-dən gəlir
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Profil məlumatı alınarkən xəta baş verdi', error: err.message });
+  }
+};
+
+// Profil məlumatını yenilə (protected route)
+export const updateProfile = async (req, res) => {
+  try {
+    const { username, email, phone, password } = req.body;
+    const user = await User.findById(req.user.id);
+
+    if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
+
+    if (username) user.username = username;
+    if (email) user.email = email;
+    if (phone) user.phone = phone;
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      message: 'Profil uğurla yeniləndi',
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Profil yenilənərkən xəta baş verdi', error: err.message });
   }
 };

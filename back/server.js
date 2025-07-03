@@ -21,11 +21,12 @@
 // });
 
 
-
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/config.js';
+import path from 'path';
+
 
 // Routes
 import authRoutes from './router/authRoutes.js';
@@ -53,24 +54,15 @@ connectDB();
 // API route-lar
 app.use('/api/auth', authRoutes);
 app.use('/api/hotels', hotelRoutes);
-
-//upload
 app.use('/api/upload', uploadRoutes);
-
-
-
-//admin
 app.use('/api/admin', adminRoutes);
-
-//message
 app.use('/api/messages', messageRoutes);
-
-//commet
 app.use('/api/comments', commentRoutes);
-
-//reservations
 app.use('/api/reservations', reservationRoutes);
 
+
+// Şəkil fayllarını statik olaraq göstərmək üçün
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 
 // Default route
@@ -78,6 +70,14 @@ app.get('/', (req, res) => {
   res.send('Baytend.com backend işləyir ✅');
 });
 
+// Error handling middleware - ən axırda əlavə edilir
+app.use((err, req, res, next) => {
+  console.error('Server Error:', err.stack);
+  res.status(500).json({
+    message: 'Serverdə xəta baş verdi',
+    error: err.message,
+  });
+});
 
 // Serveri işə sal
 app.listen(PORT, () => {

@@ -56,6 +56,9 @@
 //     res.status(400).json({ error: error.message });
 //   }
 // };
+
+
+
 import Hotel from '../models/hotel.js';
 import mongoose from 'mongoose';
 
@@ -124,7 +127,6 @@ export const getHotelById = async (req, res) => {
   }
 };
 
-// Hotel məlumatını yenilə (yalnız otel sahibi yeniləyə bilər)
 export const updateHotel = async (req, res) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
@@ -134,8 +136,14 @@ export const updateHotel = async (req, res) => {
       return res.status(403).json({ message: 'Bu əməliyyatı həyata keçirmək üçün səlahiyyətiniz yoxdur' });
     }
 
-    // Update data (images sahəsini də qəbul edir)
-    Object.assign(hotel, req.body);
+    // İcazə verilmiş sahələr
+    const allowedUpdates = ['name', 'location', 'pricePerNight', 'description', 'images', 'availableRooms', 'rating'];
+
+    allowedUpdates.forEach(field => {
+      if (req.body[field] !== undefined) {
+        hotel[field] = req.body[field];
+      }
+    });
 
     const updatedHotel = await hotel.save();
 
@@ -144,6 +152,7 @@ export const updateHotel = async (req, res) => {
     res.status(500).json({ message: 'Hotel yenilənmədi', error: err.message });
   }
 };
+
 
 // Hotel sil (yalnız sahibi silə bilər)
 export const deleteHotel = async (req, res) => {

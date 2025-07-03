@@ -19,6 +19,12 @@ const reservationSchema = new mongoose.Schema(
     checkOut: {
       type: Date,
       required: true,
+      validate: {
+        validator: function (value) {
+          return this.checkIn < value;
+        },
+        message: 'Check-out tarixi check-in tarixindən böyük olmalıdır',
+      },
     },
     guests: {
       type: Number,
