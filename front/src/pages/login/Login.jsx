@@ -24,15 +24,22 @@ export default function Login() {
 
             // Əgər istifadəçi owner-dirsə, əvvəlcə otellərinə bax
             if (user.role === 'owner') {
-                const hotelRes = await axios.get('http://localhost:2000/api/hotels/my', {
+                const hotelRes = await axios.get('http://localhost:2000/api/hotels', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
+                console.log("📦 Bütün otellər:", hotelRes.data.data);
 
-                if (hotelRes.data.data.length > 0) {
-                    navigate('/my-hotels');  // varsa otellər, səhifəyə yönləndir
+                const myHotels = hotelRes.data.data.filter(
+                    h => h.owner === user.id
+                );
+
+                if (myHotels.length > 0) {
+                    navigate('/my-hotels');
                 } else {
-                    navigate('/add-hotel');  // yoxdursa, yeni otel əlavə səhifəsinə
+                    navigate('/add-hotel');
                 }
+            } else {
+                navigate('/');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Login zamanı xəta baş verdi');

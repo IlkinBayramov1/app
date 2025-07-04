@@ -1,6 +1,28 @@
 .header {
-  background-color: #1e3a8a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #333;
   color: white;
-  padding: 16px;
-  text-align: center;
+}
+
+.logo {
+  text-decoration: none;
+  color: white;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navList li a {
+  color: white;
+  text-decoration: none;
+}
+
+.navList li a:hover {
+  text-decoration: underline;
 }
