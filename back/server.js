@@ -36,6 +36,8 @@ import messageRoutes from './router/messageRoutes.js';
 import commentRoutes from './router/commentRoutes.js';
 import reservationRoutes from './router/reservationRoutes.js';
 import uploadRoutes from './router/uploadRoutes.js'; // doğru yolu qeyd et
+import favoriteRoutes from './router/favoriteRoutes.js';
+
 
 dotenv.config();
 
@@ -59,7 +61,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/reservations', reservationRoutes);
-
+app.use('/api/favorites', favoriteRoutes);
 
 // Şəkil fayllarını statik olaraq göstərmək üçün
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));

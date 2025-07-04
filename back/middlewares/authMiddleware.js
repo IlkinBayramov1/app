@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-
+import User from '../models/user.js'; // ✅ İstifadəçini tapmaq üçün
 
 dotenv.config();
 
-export const verifyToken = (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -15,15 +15,23 @@ export const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('✅ Token dekodlandı:', decoded); // Bunu əlavə et
-    req.user = decoded;
+    console.log('✅ Token dekodlandı:', decoded);
+
+    // ✅ İstifadəçini DB-dən tapırıq
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(401).json({ message: 'İstifadəçi tapılmadı' });
+    }
+
+    // ✅ Əgər ban olunubsa:
+    if (user.isBanned) {
+      return res.status(403).json({ message: 'Bu istifadəçi ban olunub' });
+    }
+
+    req.user = user;
     next();
   } catch (err) {
-    console.log('❌ Token xətası:', err.message); // Bunu da əlavə et
+    console.log('❌ Token xətası:', err.message);
     return res.status(401).json({ message: 'Token etibarsızdır' });
   }
 };
-
-
-
-

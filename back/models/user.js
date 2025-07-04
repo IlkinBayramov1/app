@@ -23,16 +23,22 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     trim: true,
-    required: false, // Əgər mütləqdirsə: true yaz
+    required: false,
   },
   role: {
     type: String,
-    enum: ['user', 'admin', 'owner'], // <- "owner" əlavə olundu
+    enum: ['user', 'admin', 'owner'],
     default: 'user',
   },
+
+  // ✅ Ban olunub ya yox
+  isBanned: {
+    type: Boolean,
+    default: false,
+  },
+
 }, {
   timestamps: true,
 });
-
 
 export default mongoose.model('User', userSchema);

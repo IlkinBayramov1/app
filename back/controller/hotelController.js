@@ -65,9 +65,12 @@ import mongoose from 'mongoose';
 // Yeni hotel əlavə et
 export const createHotel = async (req, res) => {
   try {
+    const images = req.files ? req.files.map(f => `/uploads/${f.filename}`) : [];
     const newHotel = new Hotel({
       ...req.body,
-      owner: req.user.id, // Otel sahibi kimi təyin et
+      images,
+      image: images.length > 0 ? images[0] : '', // əsas şəkil kimi ilk şəkil
+      owner: req.user.id,
     });
 
     const savedHotel = await newHotel.save();

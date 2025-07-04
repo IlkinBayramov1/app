@@ -17,10 +17,6 @@ const hotelSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
-    image: {
-      type: String,
-      required: true,
-    },
     rating: {
       type: Number,
       default: 0,

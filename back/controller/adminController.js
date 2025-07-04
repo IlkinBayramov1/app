@@ -21,6 +21,7 @@
 
 import User from '../models/user.js';
 import Hotel from '../models/hotel.js';
+import Reservation from '../models/reservation.js';
 
 // 👥 Bütün istifadəçiləri gətir
 export const getAllUsers = async (req, res) => {
@@ -74,5 +75,88 @@ export const getAdminStats = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: 'Statistika alınmadı' });
+  }
+};
+
+
+export const getDashboardStats = async (req, res) => {
+  try {
+    const [userCount, hotelCount, reservationCount] = await Promise.all([
+      User.countDocuments(),
+      Hotel.countDocuments(),
+      Reservation.countDocuments(),
+    ]);
+
+    const last7Days = [...Array(7)].map((_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      return {
+        date: date.toISOString().split('T')[0],
+      };
+    }).reverse();
+
+    const userStats = await Promise.all(last7Days.map(async ({ date }) => {
+      const nextDay = new Date(date);
+      nextDay.setDate(nextDay.getDate() + 1);
+      const count = await User.countDocuments({
+        createdAt: {
+          $gte: new Date(date),
+          $lt: nextDay,
+        },
+      });
+      return { date, count };
+    }));
+
+    const hotelStats = await Promise.all(last7Days.map(async ({ date }) => {
+      const nextDay = new Date(date);
+      nextDay.setDate(nextDay.getDate() + 1);
+      const count = await Hotel.countDocuments({
+        createdAt: {
+          $gte: new Date(date),
+          $lt: nextDay,
+        },
+      });
+      return { date, count };
+    }));
+
+    const topHotels = await Hotel.find()
+      .sort({ rating: -1 })
+      .limit(5)
+      .select('name rating');
+
+    res.status(200).json({
+      totals: {
+        users: userCount,
+        hotels: hotelCount,
+        reservations: reservationCount,
+      },
+      dailyStats: {
+        users: userStats,
+        hotels: hotelStats,
+      },
+      topHotels,
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Statistika alınmadı', error: err.message });
+  }
+};
+
+
+
+
+export const toggleBanUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
+
+    user.isBanned = !user.isBanned; // true ↔ false
+    await user.save();
+
+    res.status(200).json({
+      message: `İstifadəçi ${user.isBanned ? 'ban olundu' : 'banı qaldırıldı'}`,
+      isBanned: user.isBanned,
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Ban əməliyyatı zamanı xəta' });
   }
 };
