@@ -15,15 +15,10 @@ export const verifyToken = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('✅ Token dekodlandı:', decoded);
-
     const user = await User.findById(decoded.id);
+
     if (!user) {
       return res.status(401).json({ message: 'İstifadəçi tapılmadı' });
-    }
-
-    if (user.isBanned) {
-      return res.status(403).json({ message: 'Bu istifadəçi ban olunub' });
     }
 
     req.user = {
@@ -34,7 +29,6 @@ export const verifyToken = async (req, res, next) => {
 
     next();
   } catch (err) {
-    console.log('❌ Token xətası:', err.message);
     return res.status(401).json({ message: 'Token etibarsızdır' });
   }
 };

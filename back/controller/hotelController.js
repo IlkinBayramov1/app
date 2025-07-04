@@ -131,3 +131,19 @@ export const deleteHotel = async (req, res) => {
     res.status(500).json({ message: 'Hotel silinmədi', error: err.message });
   }
 };
+
+
+
+// user-ə aid otelləri gətir
+export const getMyHotels = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(400).json({ message: 'İstifadəçi məlumatı yoxdur' });
+    }
+
+    const myHotels = await Hotel.find({ owner: req.user.id });
+    res.status(200).json({ data: myHotels });
+  } catch (err) {
+    res.status(500).json({ message: 'Xəta baş verdi', error: err.message });
+  }
+};
