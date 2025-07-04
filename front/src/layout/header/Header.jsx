@@ -1,20 +1,10 @@
-import React from 'react'
-import style from './Header.module.css'
+import React from 'react';
+import styles from './Header.module.css';
 
-const Header = () => {
+export default function Header() {
   return (
-    <div className={style.container}>
-      <div className={style.header}>
-        <div className={style.herder1}>
-          <div className={style.headerhome}>Home</div>
-          <div className={style.headerhome}>Contact</div>
-          <div className={style.headerhome}>About Us</div>
-          <div className={style.headerhome}></div>
-          <div className={style.headerhome}></div>
-        </div>
-      </div>
-    </div>
-  )
+    <header className={styles.header}>
+      <h1>Baytend</h1>
+    </header>
+  );
 }
-
-export default Header

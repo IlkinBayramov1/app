@@ -1,61 +1,10 @@
-// import User from '../models/User.js';
-// import bcrypt from 'bcrypt';
-// import jwt from 'jsonwebtoken';
-
-// // ✅ Qeydiyyat hisse
-// export const register = async (req, res) => {
-//   try {
-//     const { username, email, password } = req.body;
-
-//     // İstifadəçi artıq varmı?
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) return res.status(400).json({ message: 'Email artıq istifadə olunub' });
-
-//     // Şifrəni hash-lə
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Yeni istifadəçi yarad
-//     const newUser = new User({ username, email, password: hashedPassword });
-//     await newUser.save();
-
-//     res.status(201).json({ message: 'Qeydiyyat uğurludur' });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// // ✅ Giriş hisse
-// export const login = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     // İstifadəçini tap
-//     const user = await User.findOne({ email });
-//     if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
-
-//     // Şifrəni yoxla
-//     const isPasswordCorrect = await bcrypt.compare(password, user.password);
-//     if (!isPasswordCorrect) return res.status(400).json({ message: 'Şifrə səhvdir' });
-
-//     // JWT token yarat
-//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
-//     res.status(200).json({ token, user: { id: user._id, username: user.username, email: user.email } });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-
-
-
 import User from '../models/user.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // Qeydiyyat
 export const registerUser = async (req, res) => {
-  const { username, email, password, phone, role } = req.body; // phone əlavə olundu
+  const { username, email, password, role } = req.body; // phone varsa əlavə et, indi yoxdu
 
   try {
     const existingUser = await User.findOne({ email });
@@ -70,8 +19,7 @@ export const registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      phone,
-      role: role || 'user', // default user, amma 'owner' də ola bilər
+      role: role || 'user',  // default 'user'
     });
 
     await newUser.save();
@@ -89,6 +37,10 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
 
+    if(user.isBanned) {
+      return res.status(403).json({ message: 'İstifadəçi banlanıb' });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Şifrə yanlışdır' });
 
@@ -105,7 +57,7 @@ export const loginUser = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        phone: user.phone,
+        role: user.role,
       },
     });
   } catch (err) {
@@ -113,10 +65,10 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// Profil məlumatını əldə et (protected route)
+
+// Profil məlumatını əldə et
 export const getProfile = async (req, res) => {
   try {
-    // req.user.id middleware-də verifyToken-dən gəlir
     const user = await User.findById(req.user.id).select('-password');
     if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
 
@@ -126,7 +78,7 @@ export const getProfile = async (req, res) => {
   }
 };
 
-// Profil məlumatını yenilə (protected route)
+// Profil məlumatını yenilə
 export const updateProfile = async (req, res) => {
   try {
     const { username, email, phone, password } = req.body;

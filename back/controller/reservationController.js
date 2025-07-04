@@ -51,14 +51,13 @@ export const createReservation = async (req, res) => {
   }
 };
 
-
 // 2) İstifadəçinin öz rezervasiyaları
 export const getUserReservations = async (req, res) => {
   try {
     const userId = req.user.id;
 
     const reservations = await Reservation.find({ user: userId })
-      .populate('hotel', 'name location image pricePerNight') // hotel detalları
+      .populate('hotel', 'name location image pricePerNight')
       .sort({ createdAt: -1 });
 
     res.status(200).json(reservations);
@@ -85,8 +84,7 @@ export const getOwnerReservations = async (req, res) => {
   }
 };
 
-
-// DELETE /api/reservations/:id
+// 4) Rezervasiyanı ləğv et
 export const cancelReservation = async (req, res) => {
   try {
     const reservation = await Reservation.findById(req.params.id);

@@ -1,6 +1,6 @@
 import React from 'react'
-import Secone from './components/secone/Secone'
-import Sectwo from './components/sectwo/Sectwo'
+import Secone from './components/secone/SectionOne'
+import Sectwo from './components/sectwo/SectionTwo'
 
 const Home = () => {
   return (

@@ -1,64 +1,3 @@
-// import Hotel from '../models/hotel.js';
-
-// // ✅ Otel əlavə et
-// export const createHotel = async (req, res) => {
-//   try {
-//     const hotel = new Hotel(req.body);
-//     await hotel.save();
-//     res.status(201).json(hotel);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// };
-
-// // ✅ Bütün otelləri al
-// export const getAllHotels = async (req, res) => {
-//   try {
-//     const hotels = await Hotel.find();
-//     res.status(200).json(hotels);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// // ✅ Tək oteli id ilə al
-// export const getHotelById = async (req, res) => {
-//   try {
-//     const hotel = await Hotel.findById(req.params.id);
-//     if (!hotel) return res.status(404).json({ message: 'Hotel not found' });
-//     res.status(200).json(hotel);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// // ✅ Oteli sil
-// export const deleteHotel = async (req, res) => {
-//   try {
-//     const hotel = await Hotel.findByIdAndDelete(req.params.id);
-//     if (!hotel) return res.status(404).json({ message: 'Hotel not found' });
-//     res.status(200).json({ message: 'Hotel deleted successfully' });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// // ✅ Oteli yenilə
-// export const updateHotel = async (req, res) => {
-//   try {
-//     const hotel = await Hotel.findByIdAndUpdate(req.params.id, req.body, {
-//       new: true,
-//       runValidators: true,
-//     });
-//     if (!hotel) return res.status(404).json({ message: 'Hotel not found' });
-//     res.status(200).json(hotel);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// };
-
-
-
 import Hotel from '../models/hotel.js';
 import mongoose from 'mongoose';
 
@@ -66,11 +5,22 @@ import mongoose from 'mongoose';
 export const createHotel = async (req, res) => {
   try {
     const images = req.files ? req.files.map(f => `/uploads/${f.filename}`) : [];
+
+    const allowedFields = ['name', 'location', 'pricePerNight', 'description', 'availableRooms', 'rating'];
+
+    const hotelData = {};
+    allowedFields.forEach(field => {
+      if (req.body[field] !== undefined) {
+        hotelData[field] = req.body[field];
+      }
+    });
+
     const newHotel = new Hotel({
-      ...req.body,
+      ...hotelData,
       images,
-      image: images.length > 0 ? images[0] : '', // əsas şəkil kimi ilk şəkil
+      image: images.length > 0 ? images[0] : '',
       owner: req.user.id,
+      status: 'pending',
     });
 
     const savedHotel = await newHotel.save();
@@ -80,15 +30,11 @@ export const createHotel = async (req, res) => {
   }
 };
 
-
-
-
 // Bütün hotelləri səhifələmə və filtr ilə gətir
 export const getAllHotels = async (req, res) => {
   try {
     const { page = 1, limit = 10, location, minPrice, maxPrice } = req.query;
 
-    // Filtrləri qur
     const filter = {};
     if (location) filter.location = location;
     if (minPrice || maxPrice) {
@@ -130,8 +76,13 @@ export const getHotelById = async (req, res) => {
   }
 };
 
+// Hotel yenilə
 export const updateHotel = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Yanlış hotel ID' });
+    }
+
     const hotel = await Hotel.findById(req.params.id);
     if (!hotel) return res.status(404).json({ message: 'Hotel tapılmadı' });
 
@@ -139,8 +90,7 @@ export const updateHotel = async (req, res) => {
       return res.status(403).json({ message: 'Bu əməliyyatı həyata keçirmək üçün səlahiyyətiniz yoxdur' });
     }
 
-    // İcazə verilmiş sahələr
-    const allowedUpdates = ['name', 'location', 'pricePerNight', 'description', 'images', 'availableRooms', 'rating'];
+    const allowedUpdates = ['name', 'location', 'pricePerNight', 'description', 'availableRooms', 'rating'];
 
     allowedUpdates.forEach(field => {
       if (req.body[field] !== undefined) {
@@ -148,18 +98,26 @@ export const updateHotel = async (req, res) => {
       }
     });
 
-    const updatedHotel = await hotel.save();
+    if (req.files && req.files.length > 0) {
+      const images = req.files.map(f => `/uploads/${f.filename}`);
+      hotel.images = images;
+      hotel.image = images[0];
+    }
 
+    const updatedHotel = await hotel.save();
     res.status(200).json(updatedHotel);
   } catch (err) {
     res.status(500).json({ message: 'Hotel yenilənmədi', error: err.message });
   }
 };
 
-
-// Hotel sil (yalnız sahibi silə bilər)
+// Hotel sil
 export const deleteHotel = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Yanlış hotel ID' });
+    }
+
     const hotel = await Hotel.findById(req.params.id);
     if (!hotel) return res.status(404).json({ message: 'Hotel tapılmadı' });
 
@@ -168,7 +126,6 @@ export const deleteHotel = async (req, res) => {
     }
 
     await Hotel.findByIdAndDelete(req.params.id);
-
     res.status(200).json({ message: 'Hotel silindi' });
   } catch (err) {
     res.status(500).json({ message: 'Hotel silinmədi', error: err.message });

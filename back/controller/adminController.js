@@ -18,7 +18,6 @@
 //   }
 // };
 
-
 import User from '../models/user.js';
 import Hotel from '../models/hotel.js';
 import Reservation from '../models/reservation.js';
@@ -63,7 +62,7 @@ export const deleteHotelAdmin = async (req, res) => {
   }
 };
 
-// adminController
+// 📊 Admin statistikaları gətir
 export const getAdminStats = async (req, res) => {
   try {
     const usersCount = await User.countDocuments();
@@ -78,7 +77,7 @@ export const getAdminStats = async (req, res) => {
   }
 };
 
-
+// 📊 Dashboard üçün statistikalar
 export const getDashboardStats = async (req, res) => {
   try {
     const [userCount, hotelCount, reservationCount] = await Promise.all([
@@ -141,9 +140,7 @@ export const getDashboardStats = async (req, res) => {
   }
 };
 
-
-
-
+// 🔄 İstifadəçinin ban statusunu dəyişdir
 export const toggleBanUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -158,5 +155,81 @@ export const toggleBanUser = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: 'Ban əməliyyatı zamanı xəta' });
+  }
+};
+
+// ⏳ Pending statuslu otelləri gətir
+export const getPendingHotels = async (req, res) => {
+  try {
+    const hotels = await Hotel.find({ status: 'pending' });
+    res.status(200).json(hotels);
+  } catch (err) {
+    res.status(500).json({ message: 'Pending otellər alınmadı' });
+  }
+};
+
+// ✔️ Otel təsdiqlə
+export const approveHotel = async (req, res) => {
+  try {
+    const hotel = await Hotel.findByIdAndUpdate(
+      req.params.id,
+      { status: 'approved' },
+      { new: true }
+    );
+    res.status(200).json({ message: 'Hotel təsdiqləndi', hotel });
+  } catch (err) {
+    res.status(500).json({ message: 'Təsdiqləmə zamanı xəta' });
+  }
+};
+
+// ❌ Otel rədd et
+export const rejectHotel = async (req, res) => {
+  try {
+    const hotel = await Hotel.findByIdAndUpdate(
+      req.params.id,
+      { status: 'rejected' },
+      { new: true }
+    );
+    res.status(200).json({ message: 'Hotel rədd edildi', hotel });
+  } catch (err) {
+    res.status(500).json({ message: 'Rədd etmə zamanı xəta' });
+  }
+};
+
+// 🔒 İstifadəçini blokla
+export const banUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { isBanned: true },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
+    }
+
+    res.status(200).json({ message: 'İstifadəçi bloklandı', user });
+  } catch (err) {
+    res.status(500).json({ message: 'Bloklama zamanı xəta', error: err.message });
+  }
+};
+
+// 🔓 İstifadəçini aktivləşdir
+export const unbanUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { isBanned: false },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
+    }
+
+    res.status(200).json({ message: 'İstifadəçi aktivləşdirildi', user });
+  } catch (err) {
+    res.status(500).json({ message: 'Aktivləşdirmə zamanı xəta', error: err.message });
   }
 };
