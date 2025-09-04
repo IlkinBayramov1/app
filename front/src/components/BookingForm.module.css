@@ -1,0 +1,72 @@
+.formContainer {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 15px 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.formTitle {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 500;
+  color: #555;
+}
+
+.input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+.errorMsg {
+  color: #d93025;
+  margin-top: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.successMsg {
+  color: #188038;
+  margin-top: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.submitBtn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitBtn:hover {
+  background-color: #0056b3;
+}

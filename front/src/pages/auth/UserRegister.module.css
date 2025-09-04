@@ -1,0 +1,98 @@
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  color: #007bff; /* Göy rəng */
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 1rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 8px;
+  font-size: 1rem;
+  border: 1.5px solid #007bff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #0056b3;
+}
+
+button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  font-size: 1.1rem;
+  padding: 12px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.errorMsg {
+  color: red;
+  font-weight: 600;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* Responsive for very small screens */
+@media (max-width: 300px) {
+  .container {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    font-size: 0.9rem;
+    padding: 8px 6px;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 10px 0;
+  }
+}

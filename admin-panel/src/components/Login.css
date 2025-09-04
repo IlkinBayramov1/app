@@ -1,0 +1,90 @@
+/* Login.css */
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  background-color: #f9fafb; /* Açıq boz fonda */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-box {
+  background-color: white;
+  padding: 24px 28px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-box h2 {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1f2937; /* Gray-800 */
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border: 1.5px solid #d1d5db; /* Gray-300 */
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.login-box input:focus {
+  border-color: #2563eb; /* Blue-600 */
+  box-shadow: 0 0 4px #2563eb88;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #2563eb; /* Blue-600 */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-box button:hover {
+  background-color: #1d4ed8; /* Blue-700 */
+}
+
+.error-message {
+  margin-top: 16px;
+  color: #dc2626; /* Red-600 */
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ✅ 300px və daha kiçik ekranlar üçün */
+@media (max-width: 300px) {
+  .login-container {
+    padding: 24px 12px;
+  }
+
+  .login-box {
+    padding: 20px 16px;
+  }
+
+  .login-box h2 {
+    font-size: 1.4rem;
+  }
+
+  .login-box input,
+  .login-box button {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+}

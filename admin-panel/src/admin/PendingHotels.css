@@ -1,0 +1,111 @@
+/* PendingHotels.css */
+
+.pending-hotels-container {
+  padding: 24px;
+  background-color: #f9fafb; /* açıq boz */
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937; /* gray-800 */
+}
+
+.pending-hotels-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+.pending-hotels-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pending-hotels-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  background-color: #fff;
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.06);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: default;
+}
+
+.pending-hotels-list li:hover {
+  background-color: #fef3c7; /* açıq sarı */
+  box-shadow: 0 10px 25px rgb(0 0 0 / 0.12);
+}
+
+.button-group button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  user-select: none;
+  margin-left: 8px;
+  color: white;
+}
+
+.button-group button:first-child {
+  margin-left: 0;
+}
+
+/* Təsdiqlə düyməsi (yaşıl) */
+.btn-approve {
+  background-color: #16a34a; /* green-600 */
+}
+
+.btn-approve:hover {
+  background-color: #15803d; /* green-700 */
+}
+
+/* İmtina et düyməsi (qırmızı) */
+.btn-reject {
+  background-color: #dc2626; /* red-600 */
+}
+
+.btn-reject:hover {
+  background-color: #b91c1c; /* red-700 */
+}
+
+
+@media (max-width: 300px) {
+  .pending-hotels-container {
+    padding: 12px 8px;
+  }
+
+  .pending-hotels-title {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .pending-hotels-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    gap: 10px;
+  }
+
+  .button-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .button-group button {
+    width: 100%;
+    font-size: 0.75rem;
+    padding: 8px 0;
+    border-radius: 6px;
+    margin-left: 0 !important; /* ilk düymənin marginini sıfırla */
+  }
+}

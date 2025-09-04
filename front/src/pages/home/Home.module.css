@@ -1,0 +1,40 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #222;
+  text-align: center;
+}
+
+.hotelList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.message {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.loading {
+  font-style: italic;
+  text-align: center;
+  margin-top: 40px;
+}

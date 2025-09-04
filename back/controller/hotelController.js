@@ -4,10 +4,25 @@ import mongoose from 'mongoose';
 // Yeni hotel əlavə et
 export const createHotel = async (req, res) => {
   try {
-    const images = req.files ? req.files.map(f => `/uploads/${f.filename}`) : [];
+    // Multer ilə yüklənən şəkilləri al
+    const uploadedImages = req.files ? req.files.map(f => `/uploads/${f.filename}`) : [];
 
+    // Frontend-dən gələn URL-ləri parse et
+    let urlImages = [];
+    if (req.body.imageUrls) {
+      try {
+        urlImages = JSON.parse(req.body.imageUrls);
+        if (!Array.isArray(urlImages)) urlImages = [];
+      } catch {
+        urlImages = [];
+      }
+    }
+
+    // Bütün şəkilləri birləşdir
+    const images = [...uploadedImages, ...urlImages];
+
+    // Otel məlumatlarını hazırlamaq üçün lazımi sahələri topla
     const allowedFields = ['name', 'location', 'pricePerNight', 'description', 'availableRooms', 'rating'];
-
     const hotelData = {};
     allowedFields.forEach(field => {
       if (req.body[field] !== undefined) {
@@ -15,10 +30,11 @@ export const createHotel = async (req, res) => {
       }
     });
 
+    // Yeni otel yarat
     const newHotel = new Hotel({
       ...hotelData,
-      images,
-      image: images.length > 0 ? images[0] : '',
+      images,            // Birləşdirilmiş şəkillər
+      image: images[0] || '',  // Əsas şəkil kimi ilk şəkil
       owner: req.user.id,
       status: 'pending',
     });
@@ -29,6 +45,8 @@ export const createHotel = async (req, res) => {
     res.status(500).json({ message: 'Hotel əlavə edilə bilmədi', error: err.message });
   }
 };
+
+
 
 // Bütün hotelləri səhifələmə və filtr ilə gətir
 export const getAllHotels = async (req, res) => {

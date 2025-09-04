@@ -1,0 +1,201 @@
+/* HotelList.css */
+
+.hotel-list-container {
+  padding: 24px;
+  background-color: #f9fafb; /* açıq boz */
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937; /* gray-800 */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hotel-list-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  user-select: none;
+  text-align: center;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.05);
+  background-color: white;
+  border: 1px solid #d1d5db; /* gray-300 */
+}
+
+.hotel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 600px;
+}
+
+.hotel-table thead {
+  background-color: #f3f4f6; /* gray-100 */
+  user-select: none;
+}
+
+.hotel-table th,
+.hotel-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb; /* gray-200 */
+  vertical-align: middle;
+}
+
+.hotel-table th.text-center,
+.hotel-table td.text-center {
+  text-align: center;
+}
+
+.hotel-table tbody tr:hover {
+  background-color: #f9fafb; /* hover açıq boz */
+}
+
+.hotel-table tbody tr.border-top {
+  border-top: 1px solid #e5e7eb;
+}
+
+.hotel-table td.font-medium {
+  font-weight: 600;
+  color: #111827; /* gray-900 */
+}
+
+/* Responsive gizlətmələr */
+@media (max-width: 640px) {
+  .hotel-table th.hidden-sm,
+  .hotel-table td.hidden-sm {
+    display: none;
+  }
+  
+  .hotel-list-container {
+    padding: 16px 12px;
+  }
+
+  .hotel-list-title {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .hotel-table {
+    font-size: 0.85rem;
+    min-width: 100%;
+  }
+
+  /* Əməliyyatlar hüceyrəsindəki düymələr block və tam en */
+  .operations-cell {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 8px 0;
+    font-size: 0.875rem;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hotel-table th.hidden-md,
+  .hotel-table td.hidden-md {
+    display: none;
+  }
+}
+
+/* Tablet və yuxarı üçün */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hotel-list-container {
+    padding: 20px 24px;
+  }
+
+  .hotel-list-title {
+    font-size: 1.75rem;
+  }
+
+  .hotel-table {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Düymə hover effektləri */
+.btn-red {
+  background-color: #dc2626; /* red-600 */
+}
+
+.btn-red:hover {
+  background-color: #b91c1c; /* red-700 */
+}
+
+.btn-green {
+  background-color: #16a34a; /* green-600 */
+}
+
+.btn-green:hover {
+  background-color: #15803d; /* green-700 */
+}
+
+.btn-yellow {
+  background-color: #ca8a04; /* yellow-600 */
+}
+
+.btn-yellow:hover {
+  background-color: #a16207; /* yellow-700 */
+}
+
+
+@media (max-width: 300px) {
+  .hotel-list-container {
+    padding: 12px 8px;
+    max-width: 100%;
+  }
+
+  .hotel-list-title {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+  }
+
+  .table-wrapper {
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.04);
+  }
+
+  .hotel-table {
+    font-size: 0.75rem;
+    min-width: 100%;
+  }
+
+  .hotel-table th,
+  .hotel-table td {
+    padding: 6px 8px;
+  }
+
+  /* Gizlətmə funksiyaları (sm və md) artıq 300px-də tam gizlədilsin */
+  .hotel-table th.hidden-sm,
+  .hotel-table td.hidden-sm,
+  .hotel-table th.hidden-md,
+  .hotel-table td.hidden-md {
+    display: none;
+  }
+
+  /* Əməliyyatlar hüceyrəsində düymələr tam en və block */
+  .operations-cell {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 8px 0;
+    font-size: 0.75rem;
+    border-radius: 6px;
+  }
+}

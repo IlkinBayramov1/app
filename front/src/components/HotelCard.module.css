@@ -1,0 +1,69 @@
+.card {
+  width: 280px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 16px;
+  background-color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  background-color: #f0f0f0;
+}
+
+h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  color: #333;
+  text-align: center;
+}
+
+p {
+  margin: 4px 0;
+  font-size: 1rem;
+  color: #555;
+  text-align: center;
+}
+
+.heartWrapper {
+  margin-top: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* sağa yerləşdir */
+}
+
+.heartIcon {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 4px;
+  transition: transform 0.2s ease;
+}
+
+.heartIcon:hover {
+  transform: scale(1.2);
+}
+
+.heartIcon:focus {
+  outline: none;
+  box-shadow: none;
+}
+

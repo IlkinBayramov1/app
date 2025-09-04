@@ -7,30 +7,28 @@ export const createReservation = async (req, res) => {
     const { hotel, checkIn, checkOut, guests } = req.body;
     const user = req.user.id;
 
+    console.log('Rezervasiya məlumatları:', { hotel, checkIn, checkOut, guests, user });
+
     // Oteli tap
     const foundHotel = await Hotel.findById(hotel);
     if (!foundHotel) {
       return res.status(404).json({ message: 'Hotel tapılmadı' });
     }
 
-    // Boş otaqların kifayətliliyini yoxla
     if (foundHotel.availableRooms < guests) {
       return res.status(400).json({ message: 'Kifayət qədər boş otaq yoxdur' });
     }
 
-    // Tarixlərin düzgün formatda olub-olmadığını yoxla
     const checkInDate = new Date(checkIn);
     const checkOutDate = new Date(checkOut);
     if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
       return res.status(400).json({ message: 'Tarixlər düzgün formatda deyil' });
     }
 
-    // Check-out check-in-dən sonra olmalıdır
     if (checkOutDate <= checkInDate) {
       return res.status(400).json({ message: 'Check-out tarixi check-in tarixindən sonra olmalıdır' });
     }
 
-    // Rezervasiyanı yarat
     const reservation = new Reservation({
       hotel,
       user,
@@ -41,15 +39,16 @@ export const createReservation = async (req, res) => {
 
     await reservation.save();
 
-    // Oteldə boş otaq sayını azaldırıq
     foundHotel.availableRooms -= guests;
     await foundHotel.save();
 
     res.status(201).json({ message: 'Rezervasiya uğurla yaradıldı', reservation });
   } catch (err) {
+    console.error('Rezervasiya zamanı xəta:', err);
     res.status(500).json({ message: 'Xəta baş verdi', error: err.message });
   }
 };
+
 
 // 2) İstifadəçinin öz rezervasiyaları
 export const getUserReservations = async (req, res) => {

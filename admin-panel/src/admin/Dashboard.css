@@ -1,0 +1,307 @@
+/* Dashboard.css */
+
+.dashboard-container {
+  padding: 24px;
+  background-color: #f9fafb; /* açıq boz */
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937; /* gray-800 */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-title {
+  font-size: 2.25rem; /* 36px */
+  font-weight: 800;
+  margin-bottom: 32px;
+  user-select: none;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.stat-card {
+  background-color: #fff;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.05);
+  border-radius: 16px;
+  padding: 24px;
+  cursor: default;
+  border: 1px solid #e5e7eb; /* gray-200 */
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-card:hover {
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.1);
+}
+
+.stat-card h2 {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #374151; /* gray-700 */
+}
+
+.stat-number {
+  font-size: 3rem; /* 48px */
+  font-weight: 900;
+  color: #2563eb; /* blue-600, default */
+}
+
+/* Otellər və Rezervasiyalar rənglərini fərqli etmək üçün utility klasslar */
+.stat-number.hotels {
+  color: #16a34a; /* green-600 */
+}
+
+.stat-number.reservations {
+  color: #ca8a04; /* yellow-600 */
+}
+
+/* Top reytinqli otellər */
+.top-hotels-container {
+  margin-top: 56px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 12px;
+}
+
+.top-hotels-title {
+  font-size: 1.75rem; /* 28px */
+  font-weight: 600;
+  margin-bottom: 24px;
+  border-bottom: 3px solid #fbbf24; /* yellow-400 */
+  padding-bottom: 8px;
+  color: #374151; /* gray-700 */
+  user-select: none;
+  text-align: center;
+}
+
+.top-hotels-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.top-hotels-list li {
+  background-color: #fff;
+  padding: 16px 24px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.06);
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex-wrap: wrap;
+}
+
+.top-hotels-list li:hover {
+  background-color: #fffbeb; /* açıq sarı */
+}
+
+.top-hotels-list li span:first-child {
+  font-weight: 600;
+  color: #111827; /* gray-900 */
+  flex: 1 1 60%;
+  word-break: break-word;
+}
+
+.top-hotels-list li span:last-child {
+  font-weight: 700;
+  color: #b45309; /* yellow-700 */
+  flex: 1 1 30%;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Gündəlik qrafik */
+.daily-stats-container {
+  margin-top: 64px;
+  background-color: #fff;
+  padding: 32px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.1);
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.daily-stats-title {
+  font-size: 1.75rem; /* 28px */
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #374151; /* gray-700 */
+  user-select: none;
+  text-align: center;
+}
+
+/* Chart.js canvas genişliyi avtomatikdır, əlavə stil lazım deyil */
+
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Telefonlar ≤ 640px */
+@media (max-width: 640px) {
+  .dashboard-container {
+    padding: 16px 12px;
+  }
+
+  .dashboard-title {
+    font-size: 1.75rem; /* 28px */
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    padding: 20px 16px;
+  }
+
+  .stat-number {
+    font-size: 2.5rem; /* 40px */
+  }
+
+  .top-hotels-container {
+    margin-top: 40px;
+  }
+
+  .top-hotels-title {
+    font-size: 1.5rem;
+  }
+
+  .daily-stats-container {
+    margin-top: 40px;
+    padding: 20px 12px;
+  }
+
+  .daily-stats-title {
+    font-size: 1.5rem;
+  }
+
+  .top-hotels-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .top-hotels-list li span:last-child {
+    text-align: left;
+    flex-basis: auto;
+    white-space: normal;
+  }
+}
+
+/* Tabletlər (641px - 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .dashboard-container {
+    padding: 20px 24px;
+  }
+
+  .dashboard-title {
+    font-size: 2rem;
+    margin-bottom: 28px;
+  }
+
+  .stat-number {
+    font-size: 2.75rem;
+  }
+
+  .top-hotels-container {
+    max-width: 600px;
+  }
+
+  .top-hotels-title {
+    font-size: 1.6rem;
+  }
+
+  .daily-stats-container {
+    max-width: 700px;
+    padding: 28px 20px;
+  }
+
+  .daily-stats-title {
+    font-size: 1.6rem;
+  }
+}
+
+
+@media (max-width: 300px) {
+  .dashboard-container {
+    padding: 12px 8px;
+    max-width: 100%;
+  }
+
+  .dashboard-title {
+    font-size: 1.3rem; /* daha kiçik başlıq */
+    margin-bottom: 16px;
+  }
+
+  .stats-grid {
+    gap: 12px;
+    grid-template-columns: 1fr; /* 1 sütun */
+  }
+
+  .stat-card {
+    padding: 16px 12px;
+  }
+
+  .stat-card h2 {
+    font-size: 1rem;
+  }
+
+  .stat-number {
+    font-size: 2rem; /* daha kiçik statistik rəqəmlər */
+  }
+
+  .top-hotels-container {
+    margin-top: 32px;
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  .top-hotels-title {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+  }
+
+  .top-hotels-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px 16px;
+  }
+
+  .top-hotels-list li span:first-child {
+    flex: none;
+    word-break: break-word;
+  }
+
+  .top-hotels-list li span:last-child {
+    flex: none;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .daily-stats-container {
+    margin-top: 32px;
+    padding: 20px 12px;
+    max-width: 100%;
+  }
+
+  .daily-stats-title {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+  }
+}

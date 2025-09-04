@@ -1,41 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import HotelCard from '../../components/HotelCard';
+import styles from './FavoriteHotels.module.css';
 
-export default function FavoriteHotels() {
+const FavoriteHotels = () => {
   const [favorites, setFavorites] = useState([]);
-  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const res = await axios.get('http://localhost:2000/api/favorites', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setFavorites(res.data.map(f => f.hotel || f)); // bəzən .hotel içində olur
-      } catch (err) {
-        console.error('Favoritlər alınmadı:', err.message);
-      }
-    };
-
-    fetchFavorites();
+    const favs = JSON.parse(localStorage.getItem('favorites')) || [];
+    setFavorites(favs);
   }, []);
 
+  const removeFavorite = (id) => {
+    const updated = favorites.filter(hotel => hotel._id !== id);
+    setFavorites(updated);
+    localStorage.setItem('favorites', JSON.stringify(updated));
+  };
+
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Favori Otellərim</h2>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Favori Otellərim</h1>
       {favorites.length === 0 ? (
-        <p>Heç bir favorit otel yoxdur.</p>
+        <p className={styles.noFavoritesMsg}>Favori oteliniz yoxdur.</p>
       ) : (
-        <div>
+        <div className={styles.favoritesGrid}>
           {favorites.map(hotel => (
-            <div key={hotel._id} style={{ border: '1px solid #ccc', margin: '10px 0', padding: '10px' }}>
-              <h3>{hotel.name}</h3>
-              <p>{hotel.location}</p>
-              <p>Qiymət: {hotel.pricePerNight}₼</p>
+            <div key={hotel._id} className={styles.hotelWrapper}>
+              <HotelCard hotel={hotel} />
+              <button 
+                onClick={() => removeFavorite(hotel._id)} 
+                className={styles.removeBtn}
+                title="Favoridən sil"
+              >
+                ×
+              </button>
             </div>
           ))}
         </div>
       )}
     </div>
   );
-}
+};
+
+export default FavoriteHotels;

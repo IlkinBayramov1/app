@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -43,26 +45,28 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h2>Admin Panel Girişi</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /><br />
-        <input
-          type="password"
-          placeholder="Şifrə"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        /><br />
-        <button type="submit">Daxil ol</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="login-container">
+      <div className="login-box">
+        <h2>Admin Panel Girişi</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Şifrə"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Daxil ol</button>
+        </form>
+        {error && <p className="error-message">{error}</p>}
+      </div>
     </div>
   );
 }

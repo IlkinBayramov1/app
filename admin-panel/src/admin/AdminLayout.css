@@ -1,0 +1,158 @@
+/* src/components/AdminLayout.css */
+
+.admin-header {
+  background-color: #1f2937; /* Tailwind's gray-800 */
+  color: white;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  border-bottom: 4px solid #fbbf24; /* yellow-400 */
+  user-select: none;
+  flex-wrap: wrap; /* kiçik ekran üçün wrap */
+  gap: 0.75rem;
+}
+
+.admin-header h1 {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  flex: 1 1 200px; /* mobilda bir az yer alsın */
+}
+
+.admin-nav {
+  display: flex;
+  gap: 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-wrap: wrap; /* mobilda yeni sətrə keçsin */
+  justify-content: flex-end;
+  flex: 2 1 300px; /* biraz daha geniş */
+}
+
+.admin-nav a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  white-space: nowrap; /* sətirin qırılmaması üçün */
+}
+
+.admin-nav a:hover {
+  color: #fbbf24; /* yellow-400 */
+}
+
+.admin-logout-button {
+  background-color: #dc2626; /* red-600 */
+  color: white;
+  border: none;
+  padding: 0.25rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.admin-logout-button:hover {
+  background-color: #b91c1c; /* red-700 */
+}
+
+.admin-main {
+  padding: 2rem;
+  background-color: #f9fafb; /* gray-50 */
+  min-height: 100vh;
+  border-radius: 0.5rem 0.5rem 0 0;
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05);
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Kiçik ekranlar üçün (telefonlar, ≤ 640px) */
+@media (max-width: 640px) {
+  .admin-header {
+    padding: 1rem;
+    justify-content: center;
+  }
+
+  .admin-header h1 {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .admin-nav {
+    flex-basis: 100%;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .admin-nav a,
+  .admin-logout-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Orta ekranlar üçün (tablet, ≤ 1024px) */
+@media (max-width: 1024px) and (min-width: 641px) {
+  .admin-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .admin-nav {
+    gap: 1rem;
+  }
+
+  .admin-nav a,
+  .admin-logout-button {
+    font-size: 0.875rem;
+    padding: 0.3rem 0.8rem;
+  }
+}
+
+
+/* Çox kiçik ekranlar üçün (≤ 300px) */
+@media (max-width: 300px) {
+  .admin-header {
+    padding: 0.75rem 0.5rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .admin-header h1 {
+    font-size: 1.2rem;
+    flex-basis: 100%;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    white-space: normal; /* xəttin qırılması üçün */
+    letter-spacing: 0.05em;
+  }
+
+  .admin-nav {
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .admin-nav a,
+  .admin-logout-button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    white-space: normal; /* linklərin sətirə sığması üçün */
+    min-width: 60px; /* düymələrin çox kiçik olmaması üçün */
+    text-align: center;
+  }
+
+  .admin-logout-button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
